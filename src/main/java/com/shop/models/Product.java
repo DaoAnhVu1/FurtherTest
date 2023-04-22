@@ -73,14 +73,11 @@ public abstract class Product {
     }
 
     public double getTaxRate() {
-        switch (taxType) {
-            case LUXURY_TAX:
-                return 0.2;
-            case NORMAL_TAX:
-                return 0.1;
-            default:
-                return 0.0;
-        }
+        return switch (taxType) {
+            case LUXURY_TAX -> 0.2;
+            case NORMAL_TAX -> 0.1;
+            default -> 0.0;
+        };
     }
 
     public abstract String toString();

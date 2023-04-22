@@ -1,6 +1,7 @@
 package com.shop.views;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.shop.controllers.ProductController;
@@ -37,7 +38,7 @@ public class ProductView {
         }
     }
 
-    public void addProduct() {
+    public void addProduct() throws InputMismatchException {
         System.out.println();
         String name;
         String description;
@@ -47,64 +48,69 @@ public class ProductView {
         boolean gift;
         double weight;
 
-        System.out.print("Enter the product name: ");
-        name = scanner.nextLine();
+        try {
+            System.out.print("Enter the product name: ");
+            name = scanner.nextLine();
 
-        if (productController.getProduct(name) != null) {
-            System.out.println("There is already an item named: " + name);
-            return;
-        }
+            if (productController.getProduct(name) != null) {
+                System.out.println("There is already an item named: " + name);
+                return;
+            }
 
-        System.out.print("Enter the product description: ");
-        description = scanner.nextLine();
+            System.out.print("Enter the product description: ");
+            description = scanner.nextLine();
 
-        System.out.print("Enter the product quantity: ");
-        quantity = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Enter the product price: ");
-        price = scanner.nextDouble();
-        scanner.nextLine();
-
-        System.out.print("Enter the tax type of the product (TAX_FREE, NORMAL_TAX, LUXURY_TAX): ");
-        taxType = scanner.nextLine();
-
-        if (!taxType.equals("TAX_FREE") && !taxType.equals("NORMAL_TAX") && !taxType.equals("LUXURY_TAX")) {
-            System.out.println("Invalid tax type");
-            return;
-        }
-
-        System.out.print("Do you want to make this product a gift (Y/N): ");
-        gift = scanner.nextLine().equalsIgnoreCase("Y");
-
-        Product finalProduct;
-        System.out.print("Is the product physical or digital (P/D): ");
-        String isPhysicalInput = scanner.nextLine();
-        if (isPhysicalInput.equalsIgnoreCase("p")) {
-            System.out.print("Enter the product weight: ");
-            weight = scanner.nextDouble();
+            System.out.print("Enter the product quantity: ");
+            quantity = scanner.nextInt();
             scanner.nextLine();
-            finalProduct = new PhysicalProduct(name, description, quantity, price, TaxType.valueOf(taxType), gift,
-                    weight);
-        } else if (isPhysicalInput.equalsIgnoreCase("d")) {
-            finalProduct = new DigitalProduct(name, description, quantity, price, TaxType.valueOf(taxType), gift);
-        } else {
+
+            System.out.print("Enter the product price: ");
+            price = scanner.nextDouble();
+            scanner.nextLine();
+
+            System.out.print("Enter the tax type of the product (TAX_FREE, NORMAL_TAX, LUXURY_TAX): ");
+            taxType = scanner.nextLine();
+
+            if (!taxType.equals("TAX_FREE") && !taxType.equals("NORMAL_TAX") && !taxType.equals("LUXURY_TAX")) {
+                System.out.println("Invalid tax type");
+                return;
+            }
+
+            System.out.print("Do you want to make this product a gift (Y/N): ");
+            gift = scanner.nextLine().equalsIgnoreCase("Y");
+
+            Product finalProduct;
+            System.out.print("Is the product physical or digital (P/D): ");
+            String isPhysicalInput = scanner.nextLine();
+            if (isPhysicalInput.equalsIgnoreCase("p")) {
+                System.out.print("Enter the product weight: ");
+                weight = scanner.nextDouble();
+                scanner.nextLine();
+                finalProduct = new PhysicalProduct(name, description, quantity, price, TaxType.valueOf(taxType), gift,
+                        weight);
+            } else if (isPhysicalInput.equalsIgnoreCase("d")) {
+                finalProduct = new DigitalProduct(name, description, quantity, price, TaxType.valueOf(taxType), gift);
+            } else {
+                System.out.println("Invalid input");
+                return;
+            }
+            System.out.println();
+            System.out.println("Successfully created " + finalProduct.toString());
+            productController.addProduct(finalProduct);
+        } catch (Exception e) {
             System.out.println("Invalid input");
-            return;
+            scanner.nextLine();
         }
-        System.out.println();
-        System.out.println("Successfully created " + finalProduct.toString());
-        productController.addProduct(finalProduct);
     }
 
-    public void editProduct() {
+    public void editProduct() throws InputMismatchException {
         System.out.println();
         int index = 1;
         for (String productName : ProductController.getInstance().getAllProducts().keySet()) {
             System.out.println(index + ": " + productName);
             index += 1;
         }
-
+        try {
         System.out.print("Enter the name of the product you want to edit: ");
         String name = scanner.nextLine();
         Product chosenProduct = ProductController.getInstance().getProduct(name);
@@ -167,7 +173,10 @@ public class ProductView {
                 default -> System.out.println("Invalid choice. Please try again.");
             }
         }
-
+        } catch (Exception e) {
+            System.out.println("Invalid input");
+            scanner.nextLine();
+        }
     }
 
     public void removeProduct() {

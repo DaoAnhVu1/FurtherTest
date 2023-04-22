@@ -22,11 +22,12 @@ public class Main {
             System.out.println("5. Add product to current cart");
             System.out.println("6. Remove product from current cart");
             System.out.println("7. Update messages in current cart");
-            System.out.println("8. Apply coupons");
-            System.out.println("9. Remove coupons");
-            System.out.println("10. View a cart");
-            System.out.println("11. Sort and display all carts");
-            System.out.println("12. Print receipts and create new cart");
+            System.out.println("8. View messages in current cart");
+            System.out.println("9. Apply coupons");
+            System.out.println("10. Remove coupons");
+            System.out.println("11. View a cart");
+            System.out.println("12. Sort and display all carts");
+            System.out.println("13. Print receipts and create new cart");
             System.out.println("0. Exit");
             System.out.print("Select an option: ");
 
@@ -47,11 +48,12 @@ public class Main {
                 case 5 -> shoppingCartView.addProductToCart();
                 case 6 -> shoppingCartView.removeProductFromCart();
                 case 7 -> shoppingCartView.updateMessages();
-                case 8 -> shoppingCartView.applyCoupon();
-                case 9 -> shoppingCartView.removeCoupon();
-                case 10 -> shoppingCartView.viewACart();
-                case 11 -> shoppingCartView.displayAllCarts();
-                case 12 -> shoppingCartView.printReceipt();
+                case 8 -> shoppingCartView.viewMessages();
+                case 9 -> shoppingCartView.applyCoupon();
+                case 10 -> shoppingCartView.removeCoupon();
+                case 11 -> shoppingCartView.viewACart();
+                case 12 -> shoppingCartView.displayAllCarts();
+                case 13 -> shoppingCartView.printReceipt();
                 case 0 -> System.out.println("Goodbye!");
                 default -> System.out.println("Invalid choice. Please try again.");
             }

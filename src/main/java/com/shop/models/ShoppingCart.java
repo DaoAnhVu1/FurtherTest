@@ -119,7 +119,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         }
 
         // Remove i item with the provided name, could be item with any messages, the
-        // user will manualy update the message if needed
+        // user will manually update the message if needed
         for (int i = 0; i < quantity; i++) {
             for (int j = 0; j < itemsInCart.size(); j++) {
                 ProductItem currentItem = itemsInCart.get(j);
@@ -212,12 +212,12 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             date = dateFormat.format(currentDate);
         }
 
+        System.out.println("Shipping fee: " + (totalWeight * 0.1));
+        System.out.println("Total price: " + calculatePrice());
+
         if (date != null) {
             System.out.println("Purchased Date: " + date);
         }
-
-        System.out.println("Shipping fee: " + (totalWeight * 0.1));
-        System.out.println("Total price: " + calculatePrice());
 
     }
 
