@@ -1,0 +1,54 @@
+package com.shop.controllers;
+
+import com.shop.models.Product;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class ProductController {
+    private static ProductController instance = null;
+    private HashMap<String, Product> allProducts;
+
+    private ProductController() {
+        allProducts = new HashMap<>();
+    }
+
+    public static ProductController getInstance() {
+        if (instance == null) {
+            instance = new ProductController();
+        }
+        return instance;
+    }
+
+    public void addProduct(Product product) {
+        if (allProducts.containsKey(product.getName())) {
+            // There is already an item with the same name in the shop
+            return;
+        }
+        allProducts.put(product.getName(), product);
+    }
+
+    public void removeProduct(String name) {
+        allProducts.remove(name);
+    }
+
+    public Product getProduct(String name) {
+        return allProducts.get(name);
+    }
+
+    public HashMap<String, Product> getAllProducts() {
+        return allProducts;
+    }
+
+    public ArrayList<Product> getAllProductsList() {
+        return new ArrayList<>(allProducts.values());
+    }
+
+    public void updateProductQuantity(String product, int quantity) {
+        int previousQuantity = allProducts.get(product).getQuantity();
+        if (quantity > previousQuantity) {
+            return;
+        }
+        allProducts.get(product).setQuantity(previousQuantity - quantity);
+    }
+}
