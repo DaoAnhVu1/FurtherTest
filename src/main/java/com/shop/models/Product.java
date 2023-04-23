@@ -68,10 +68,6 @@ public abstract class Product {
         return canBeGifted;
     }
 
-    public void switchCanBeGifted() {
-        this.canBeGifted = !canBeGifted;
-    }
-
     public double getTaxRate() {
         return switch (taxType) {
             case LUXURY_TAX -> 0.2;

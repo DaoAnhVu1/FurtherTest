@@ -9,7 +9,8 @@ import java.util.Date;
 import com.shop.controllers.ProductController;
 
 public class ShoppingCart implements Comparable<ShoppingCart> {
-    private List<ProductItem> itemsInCart = new ArrayList<>();
+    private List<ProductItem> normalItems = new ArrayList<>();
+    private List<GiftItem> giftItems = new ArrayList<>();
     private String coupon = null;
     private double couponPrice = 0;
     private double totalWeight;
@@ -27,8 +28,19 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         this.totalWeight = totalWeight;
     }
 
-    public List<ProductItem> getItems() {
-        return itemsInCart;
+    public List<ProductItem> getNormalItems() {
+        return normalItems;
+    }
+
+    public List<GiftItem> getGiftItems() {
+        return giftItems;
+    }
+
+    public List<ProductItem> getAllItems() {
+        List<ProductItem> mergedList = new ArrayList<>();
+        mergedList.addAll(normalItems);
+        mergedList.addAll(giftItems);
+        return mergedList;
     }
 
     // Add method for general item
@@ -50,7 +62,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
 
         for (int i = 0; i < quantity; i++) {
             ProductItem newItem = new ProductItem(chosenProduct);
-            itemsInCart.add(newItem);
+            normalItems.add(newItem);
         }
 
         productController.updateProductQuantity(productName, quantity);
@@ -91,7 +103,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
                 newItem.setMessage(messagesForGift.get(indexForGift));
                 indexForGift += 1;
             }
-            itemsInCart.add(newItem);
+            giftItems.add(newItem);
         }
 
         productController.updateProductQuantity(productName, quantity);
@@ -101,9 +113,13 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
     // Remove method for both general and gift item
     public boolean removeProduct(String productName, int quantity) {
         int count = 0;
-        for (ProductItem productItem : itemsInCart) {
+        boolean isAGift = false;
+        for (ProductItem productItem : getAllItems()) {
             if (productItem.getProduct().getName().equals(productName)) {
                 count += 1;
+                if (productItem instanceof GiftItem) {
+                    isAGift = true;
+                }
             }
         }
 
@@ -121,11 +137,21 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         // Remove i item with the provided name, could be item with any messages, the
         // user will manually update the message if needed
         for (int i = 0; i < quantity; i++) {
-            for (int j = 0; j < itemsInCart.size(); j++) {
-                ProductItem currentItem = itemsInCart.get(j);
-                if (currentItem.getProduct().getName().equals(productName)) {
-                    itemsInCart.remove(j);
-                    break;
+            if (isAGift) {
+                for (int j = 0; j < giftItems.size(); j++) {
+                    ProductItem currentItem = giftItems.get(j);
+                    if (currentItem.getProduct().getName().equals(productName)) {
+                        giftItems.remove(j);
+                        break;
+                    }
+                }
+            } else {
+                for (int j = 0; j < normalItems.size(); j++) {
+                    ProductItem currentItem = normalItems.get(j);
+                    if (currentItem.getProduct().getName().equals(productName)) {
+                        normalItems.remove(j);
+                        break;
+                    }
                 }
             }
         }
@@ -143,7 +169,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         String productNameThatTiedToCurrentCoupon = Coupon.getAllCoupon().get(coupon).getProduct().getName();
 
         int numberOfProductInCart = 0;
-        for (ProductItem productItem : itemsInCart) {
+        for (ProductItem productItem : normalItems) {
             if (productItem.getProduct().getName().equals(productNameThatTiedToCurrentCoupon)) {
                 numberOfProductInCart += 1;
             }
@@ -181,7 +207,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
 
     public double calculatePrice() {
         double totalAfterTax = 0;
-        for (ProductItem item : itemsInCart) {
+        for (ProductItem item : getAllItems()) {
             double productTax = item.getProduct().getTaxRate() * item.getProduct().getPrice();
             totalAfterTax += (productTax + item.getProduct().getPrice());
         }
@@ -192,7 +218,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
 
     public void print(boolean finalStatus) {
         int index = 1;
-        for (ProductItem productItem : itemsInCart) {
+        for (ProductItem productItem : getAllItems()) {
             Product currentProduct = productItem.getProduct();
             System.out.println("Item " + index);
             System.out.println("Name: " + currentProduct.getName());

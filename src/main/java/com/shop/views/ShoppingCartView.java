@@ -37,58 +37,60 @@ public class ShoppingCartView {
             } else {
                 System.out.println("Gift-able: No");
             }
+            System.out.println();
         }
 
         System.out.println();
         try {
-        System.out.print("Enter the name of the product you want to add: ");
-        String productName = scanner.nextLine();
-        Product chosenProduct = productController.getProduct(productName);
-        if (chosenProduct == null) {
-            System.out.println("There is no item with the name: " + productName);
-            return;
-        }
-
-        System.out.print("Enter the quantity you want to add: ");
-        int wantedQuantity = scanner.nextInt();
-        scanner.nextLine();
-
-        int availableQuantity = chosenProduct.getQuantity();
-
-        if (wantedQuantity > availableQuantity) {
-            System.out.println();
-            System.out.println("There is not enough stock left");
-            return;
-        }
-
-        System.out.println();
-        if (chosenProduct.canBeGifted()) {
-            List<String> listOfMessages = new ArrayList<>();
-            System.out.println("How many product do you want to add messages ? (The number must be smaller or equal to "
-                    + wantedQuantity + ")");
-
-            int numberOfMessages = scanner.nextInt();
-            scanner.nextLine();
-            // Invalid input if the number of messages more than the number of added item
-            if (numberOfMessages > wantedQuantity || numberOfMessages < 0) {
-                System.out.println("Invalid number of messages");
+            System.out.print("Enter the name of the product you want to add: ");
+            String productName = scanner.nextLine();
+            Product chosenProduct = productController.getProduct(productName);
+            if (chosenProduct == null) {
+                System.out.println("There is no item with the name: " + productName);
                 return;
-            } else if (numberOfMessages == 0) {
-                System.out.println("No message added");
-            } else {
-                for (int i = 0; i < numberOfMessages; i++) {
-                    System.out.print("Enter message number " + (i + 1) + ": ");
-                    String message = scanner.nextLine();
-                    listOfMessages.add(message.trim());
-                }
             }
 
-            shoppingCartController.getCurrentCart().addProduct(productName, wantedQuantity, listOfMessages);
-        } else {
-            shoppingCartController.getCurrentCart().addProduct(productName, wantedQuantity);
-        }
-        System.out.println();
-        System.out.println("Successfully added " + wantedQuantity + " " + productName + " to current cart");
+            System.out.print("Enter the quantity you want to add: ");
+            int wantedQuantity = scanner.nextInt();
+            scanner.nextLine();
+
+            int availableQuantity = chosenProduct.getQuantity();
+
+            if (wantedQuantity > availableQuantity) {
+                System.out.println();
+                System.out.println("There is not enough stock left");
+                return;
+            }
+
+            System.out.println();
+            if (chosenProduct.canBeGifted()) {
+                List<String> listOfMessages = new ArrayList<>();
+                System.out.println(
+                        "How many product do you want to add messages ? (The number must be smaller or equal to "
+                                + wantedQuantity + ")");
+
+                int numberOfMessages = scanner.nextInt();
+                scanner.nextLine();
+                // Invalid input if the number of messages more than the number of added item
+                if (numberOfMessages > wantedQuantity || numberOfMessages < 0) {
+                    System.out.println("Invalid number of messages");
+                    return;
+                } else if (numberOfMessages == 0) {
+                    System.out.println("No message added");
+                } else {
+                    for (int i = 0; i < numberOfMessages; i++) {
+                        System.out.print("Enter message number " + (i + 1) + ": ");
+                        String message = scanner.nextLine();
+                        listOfMessages.add(message.trim());
+                    }
+                }
+
+                shoppingCartController.getCurrentCart().addProduct(productName, wantedQuantity, listOfMessages);
+            } else {
+                shoppingCartController.getCurrentCart().addProduct(productName, wantedQuantity);
+            }
+            System.out.println();
+            System.out.println("Successfully added " + wantedQuantity + " " + productName + " to current cart");
         } catch (Exception e) {
             System.out.println("Invalid input");
             scanner.nextLine();
@@ -96,9 +98,10 @@ public class ShoppingCartView {
     }
 
     public void removeProductFromCart() throws InputMismatchException {
+        System.out.println();
         ShoppingCart currentCart = ShoppingCartController.getInstance().getCurrentCart();
         int index = 1;
-        for (ProductItem productItem : currentCart.getItems()) {
+        for (ProductItem productItem : currentCart.getAllItems()) {
             Product currentProduct = productItem.getProduct();
             System.out.println("Item " + index);
             System.out.println("Name: " + currentProduct.getName());
@@ -112,24 +115,27 @@ public class ShoppingCartView {
             index += 1;
         }
         try {
-        System.out.print("Enter the name of the product you want to remove: ");
-        String productName = scanner.nextLine();
+            System.out.print("Enter the name of the product you want to remove: ");
+            String productName = scanner.nextLine();
 
-        System.out.println();
-
-        System.out.print("Enter the quantity you want to remove: ");
-        int removeQuantity = scanner.nextInt();
-        scanner.nextLine();
-
-        if (removeQuantity <= 0 || removeQuantity > currentCart.getItems().size()) {
-            System.out.println("Invalid input");
-            return;
-        }
-        currentCart.removeProduct(productName, removeQuantity);
-        if (currentCart.removeProduct(productName, removeQuantity)) {
             System.out.println();
-            System.out.println("Successfully removed " + removeQuantity + " " + productName);
-        }
+
+            System.out.print("Enter the quantity you want to remove: ");
+            int removeQuantity = scanner.nextInt();
+            scanner.nextLine();
+
+            if (removeQuantity <= 0 || removeQuantity > currentCart.getAllItems().size()) {
+                System.out.println("Invalid input");
+                return;
+            }
+            boolean isRemove = currentCart.removeProduct(productName, removeQuantity);
+            System.out.println();
+            if (isRemove) {
+
+                System.out.println("Successfully removed " + removeQuantity + " " + productName);
+            } else {
+                System.out.println("Remove unsucessfully, please check your input again");
+            }
         } catch (Exception e) {
             System.out.println("Invalid input");
             scanner.nextLine();
@@ -160,12 +166,15 @@ public class ShoppingCartView {
     }
 
     public void updateMessages() throws InputMismatchException {
-        boolean foundGiftedItem = false;
         System.out.println();
         ShoppingCart currentCart = ShoppingCartController.getInstance().getCurrentCart();
-        HashSet<Integer> validInput = new HashSet<>();
-        for (int i = 0; i < currentCart.getItems().size(); i++) {
-            ProductItem currentItem = currentCart.getItems().get(i);
+        if (currentCart.getGiftItems().size() == 0) {
+            System.out.println("There no gift-able item in your cart");
+            return;
+        }
+
+        for (int i = 0; i < currentCart.getGiftItems().size(); i++) {
+            ProductItem currentItem = currentCart.getGiftItems().get(i);
             if (currentItem instanceof GiftItem) {
                 Product currentProduct = currentItem.getProduct();
                 System.out.println("Item " + (i + 1));
@@ -175,28 +184,26 @@ public class ShoppingCartView {
                 System.out.println("Tax Type: " + currentProduct.getTaxType());
                 System.out.println("Message: " + ((GiftItem) currentItem).getMessage());
                 System.out.println();
-                validInput.add(i);
-                foundGiftedItem = true;
             }
         }
+
         try {
-            if (!foundGiftedItem) {
-                System.out.println("There are no gift-able item in your cart");
+            System.out.print("Enter the item number you want to update (1, 2, ...) : ");
+            int userInput = scanner.nextInt();
+            userInput = userInput - 1;
+            scanner.nextLine();
+
+            if (userInput < 0 || userInput >= currentCart.getGiftItems().size()) {
+                System.out.println("Invalid input");
                 return;
             }
-        System.out.print("Enter the item number you want to update (1, 2, ...) : ");
-        int userInput = scanner.nextInt();
-        userInput = userInput - 1;
-        scanner.nextLine();
-        if (!validInput.contains(userInput)) {
-            System.out.println("Invalid input, you must enter the provided item number");
-            return;
-        }
-        System.out.println();
-        System.out.print("Enter the new message: ");
-        String newMessage = scanner.nextLine();
-        ((GiftItem) currentCart.getItems().get(userInput)).setMessage(newMessage);
-        System.out.println("Successfully update the message");
+
+            System.out.println();
+            System.out.print("Enter the new message: ");
+            String newMessage = scanner.nextLine();
+            ((GiftItem) currentCart.getGiftItems().get(userInput)).setMessage(newMessage);
+            System.out.println();
+            System.out.println("Successfully update the message");
         } catch (Exception e) {
             System.out.println("Invalid input");
             scanner.nextLine();
@@ -204,26 +211,22 @@ public class ShoppingCartView {
     }
 
     public void viewMessages() {
-        boolean foundGiftedItemMessage = false;
+        System.out.println();
         ShoppingCart currentCart = ShoppingCartController.getInstance().getCurrentCart();
-        for (int i = 0; i < currentCart.getItems().size(); i++) {
-            ProductItem currentItem = currentCart.getItems().get(i);
-            if (currentItem instanceof GiftItem) {
-                if(!Objects.equals(((GiftItem) currentItem).getMessage(), "No message")) {
-                    Product currentProduct = currentItem.getProduct();
-                    System.out.println("Item " + (i + 1));
-                    System.out.println("Name: " + currentProduct.getName());
-                    System.out.println("Description:" + currentProduct.getDescription());
-                    System.out.println("Price: $" + currentProduct.getPrice());
-                    System.out.println("Tax Type: " + currentProduct.getTaxType());
-                    System.out.println("Message: " + ((GiftItem) currentItem).getMessage());
-                    System.out.println();
-                    foundGiftedItemMessage = true;
-                }
-            }
+        if (currentCart.getGiftItems().size() == 0) {
+            System.out.println("There no gift-able item in your cart");
+            return;
         }
-        if (!foundGiftedItemMessage) {
-            System.out.println("There no gift-able item in your cart with message");
+        for (int i = 0; i < currentCart.getGiftItems().size(); i++) {
+            ProductItem currentItem = currentCart.getGiftItems().get(i);
+            Product currentProduct = currentItem.getProduct();
+            System.out.println("Item " + (i + 1));
+            System.out.println("Name: " + currentProduct.getName());
+            System.out.println("Description:" + currentProduct.getDescription());
+            System.out.println("Price: $" + currentProduct.getPrice());
+            System.out.println("Tax Type: " + currentProduct.getTaxType());
+            System.out.println("Message: " + ((GiftItem) currentItem).getMessage());
+            System.out.println();
         }
     }
 
@@ -235,19 +238,19 @@ public class ShoppingCartView {
         }
         System.out.println();
         try {
-        System.out.print("Select one (1, 2, ...): ");
-        int chosenIndex = scanner.nextInt();
-        chosenIndex -= 1;
-        scanner.nextLine();
-        System.out.println();
+            System.out.print("Select one (1, 2, ...): ");
+            int chosenIndex = scanner.nextInt();
+            chosenIndex -= 1;
+            scanner.nextLine();
+            System.out.println();
 
-        if (chosenIndex < 0 || chosenIndex >= allShoppingCarts.size()) {
-            System.out.println("Invalid input, try again");
-            return;
-        }
-        ShoppingCart chosenCart = allShoppingCarts.get(chosenIndex);
-        chosenCart.print(false);
-        System.out.println();
+            if (chosenIndex < 0 || chosenIndex >= allShoppingCarts.size()) {
+                System.out.println("Invalid input, try again");
+                return;
+            }
+            ShoppingCart chosenCart = allShoppingCarts.get(chosenIndex);
+            chosenCart.print(false);
+            System.out.println();
         } catch (Exception e) {
             System.out.println("Invalid input");
             scanner.nextLine();
@@ -263,7 +266,7 @@ public class ShoppingCartView {
     }
 
     public void printReceipt() {
-        if (shoppingCartController.getCurrentCart().getItems().size() == 0) {
+        if (shoppingCartController.getCurrentCart().getAllItems().size() == 0) {
             System.out.println("There is 0 item in the current cart");
             return;
         }

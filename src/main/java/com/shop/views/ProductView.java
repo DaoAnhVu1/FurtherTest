@@ -111,68 +111,64 @@ public class ProductView {
             index += 1;
         }
         try {
-        System.out.print("Enter the name of the product you want to edit: ");
-        String name = scanner.nextLine();
-        Product chosenProduct = ProductController.getInstance().getProduct(name);
+            System.out.print("Enter the name of the product you want to edit: ");
+            String name = scanner.nextLine();
+            Product chosenProduct = ProductController.getInstance().getProduct(name);
 
-        if (chosenProduct == null) {
-            System.out.println("Product not found.");
-            return;
-        }
-
-        boolean isPhysical = chosenProduct instanceof PhysicalProduct;
-        boolean editing = true;
-        while (editing) {
-            System.out.println();
-            System.out.println("Current product: " + chosenProduct.getName());
-            System.out.println();
-            System.out.println("Enter the field you want to update: ");
-            System.out.println("1.Description: " + chosenProduct.getDescription());
-            System.out.println("2.Quantity: " + chosenProduct.getQuantity());
-            System.out.println("3.Price: " + chosenProduct.getPrice());
-            System.out.println("4.Is a gift: " + chosenProduct.canBeGifted());
-            if (isPhysical) {
-                System.out.println("5.Weight: " + ((PhysicalProduct) chosenProduct).getWeight());
+            if (chosenProduct == null) {
+                System.out.println("Product not found.");
+                return;
             }
-            System.out.println("0: Exit editing");
-            System.out.println();
-            System.out.print("Your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
 
-            switch (choice) {
-                case 1 -> {
-                    System.out.print("Enter the new description: ");
-                    String newDescription = scanner.nextLine();
-                    chosenProduct.setDescription(newDescription);
+            boolean isPhysical = chosenProduct instanceof PhysicalProduct;
+            boolean editing = true;
+            while (editing) {
+                System.out.println();
+                System.out.println("Current product: " + chosenProduct.getName());
+                System.out.println();
+                System.out.println("Enter the field you want to update: ");
+                System.out.println("1.Description: " + chosenProduct.getDescription());
+                System.out.println("2.Quantity: " + chosenProduct.getQuantity());
+                System.out.println("3.Price: " + chosenProduct.getPrice());
+                if (isPhysical) {
+                    System.out.println("4.Weight: " + ((PhysicalProduct) chosenProduct).getWeight());
                 }
-                case 2 -> {
-                    System.out.print("Enter the new quantity: ");
-                    int newQuantity = scanner.nextInt();
-                    scanner.nextLine(); // consume the newline character
-                    chosenProduct.setQuantity(newQuantity);
+                System.out.println("0: Exit editing");
+                System.out.println();
+                System.out.print("Your choice: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // consume the newline character
+
+                switch (choice) {
+                    case 1 -> {
+                        System.out.print("Enter the new description: ");
+                        String newDescription = scanner.nextLine();
+                        chosenProduct.setDescription(newDescription);
+                    }
+                    case 2 -> {
+                        System.out.print("Enter the new quantity: ");
+                        int newQuantity = scanner.nextInt();
+                        scanner.nextLine(); // consume the newline character
+                        chosenProduct.setQuantity(newQuantity);
+                    }
+                    case 3 -> {
+                        System.out.print("Enter the new price: ");
+                        double newPrice = scanner.nextDouble();
+                        scanner.nextLine(); // consume the newline character
+                        chosenProduct.setPrice(newPrice);
+                    }
+                    case 4 -> {
+                        if (!isPhysical)
+                            break;
+                        System.out.print("Enter the new weight: ");
+                        double newWeight = scanner.nextDouble();
+                        scanner.nextLine();
+                        ((PhysicalProduct) chosenProduct).setWeight(newWeight);
+                    }
+                    case 0 -> editing = false;
+                    default -> System.out.println("Invalid choice. Please try again.");
                 }
-                case 3 -> {
-                    System.out.print("Enter the new price: ");
-                    double newPrice = scanner.nextDouble();
-                    scanner.nextLine(); // consume the newline character
-                    chosenProduct.setPrice(newPrice);
-                }
-                case 4 -> {
-                    chosenProduct.switchCanBeGifted();
-                }
-                case 5 -> {
-                    if (!isPhysical)
-                        break;
-                    System.out.print("Enter the new weight: ");
-                    double newWeight = scanner.nextDouble();
-                    scanner.nextLine();
-                    ((PhysicalProduct) chosenProduct).setWeight(newWeight);
-                }
-                case 0 -> editing = false;
-                default -> System.out.println("Invalid choice. Please try again.");
             }
-        }
         } catch (Exception e) {
             System.out.println("Invalid input");
             scanner.nextLine();
