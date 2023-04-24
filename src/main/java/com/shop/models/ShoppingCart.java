@@ -21,6 +21,22 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
     public ShoppingCart() {
     }
 
+    public String getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(String coupon) {
+        this.coupon = coupon;
+    }
+
+    public double getCouponPrice() {
+        return couponPrice;
+    }
+
+    public void setCouponPrice(double couponPrice) {
+        this.couponPrice = couponPrice;
+    }
+
     public double getTotalWeight() {
         return totalWeight;
     }
@@ -218,6 +234,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
 
     public void print(boolean finalStatus) {
         int index = 1;
+        double tax = 0;
         for (ProductItem productItem : getAllItems()) {
             Product currentProduct = productItem.getProduct();
             System.out.println("Item " + index);
@@ -230,12 +247,18 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             }
             System.out.println();
             index += 1;
+            tax += currentProduct.getPrice() * currentProduct.getTaxRate();
         }
 
         if (finalStatus) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date currentDate = new Date();
             date = dateFormat.format(currentDate);
+            if (this.getCoupon() != null) {
+                System.out.println("Coupon: " + this.getCoupon());
+                System.out.println("Price deducted from coupon: " + this.getCouponPrice());
+            }
+            System.out.println("Tax: " + tax);
         }
 
         System.out.println("Shipping fee: " + (totalWeight * 0.1));

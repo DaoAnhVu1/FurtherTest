@@ -40,7 +40,6 @@ public class ShoppingCartView {
             System.out.println();
         }
 
-        System.out.println();
         try {
             System.out.print("Enter the name of the product you want to add: ");
             String productName = scanner.nextLine();
@@ -166,7 +165,7 @@ public class ShoppingCartView {
             if (isRemoved) {
                 System.out.println("Successfully removed " + removeQuantity + " " + productName);
             } else {
-                System.out.println("Remove unsucessfully, please check your input again");
+                System.out.println("Remove unsuccessfully, please check your input again");
             }
         } catch (Exception e) {
             System.out.println("Invalid input");
@@ -206,15 +205,15 @@ public class ShoppingCartView {
         }
 
         for (int i = 0; i < currentCart.getGiftItems().size(); i++) {
-            ProductItem currentItem = currentCart.getGiftItems().get(i);
-            if (currentItem instanceof GiftItem) {
+            GiftItem currentItem = currentCart.getGiftItems().get(i);
+            if (currentItem != null) {
                 Product currentProduct = currentItem.getProduct();
                 System.out.println("Item " + (i + 1));
                 System.out.println("Name: " + currentProduct.getName());
                 System.out.println("Description:" + currentProduct.getDescription());
                 System.out.println("Price: $" + currentProduct.getPrice());
                 System.out.println("Tax Type: " + currentProduct.getTaxType());
-                System.out.println("Message: " + ((GiftItem) currentItem).getMessage());
+                System.out.println("Message: " + currentItem.getMessage());
                 System.out.println();
             }
         }
@@ -233,7 +232,7 @@ public class ShoppingCartView {
             System.out.println();
             System.out.print("Enter the new message: ");
             String newMessage = scanner.nextLine();
-            ((GiftItem) currentCart.getGiftItems().get(userInput)).setMessage(newMessage);
+            currentCart.getGiftItems().get(userInput).setMessage(newMessage);
             System.out.println();
             System.out.println("Successfully update the message");
         } catch (Exception e) {
@@ -250,15 +249,17 @@ public class ShoppingCartView {
             return;
         }
         for (int i = 0; i < currentCart.getGiftItems().size(); i++) {
-            ProductItem currentItem = currentCart.getGiftItems().get(i);
+            GiftItem currentItem = currentCart.getGiftItems().get(i);
             Product currentProduct = currentItem.getProduct();
-            System.out.println("Item " + (i + 1));
-            System.out.println("Name: " + currentProduct.getName());
-            System.out.println("Description:" + currentProduct.getDescription());
-            System.out.println("Price: $" + currentProduct.getPrice());
-            System.out.println("Tax Type: " + currentProduct.getTaxType());
-            System.out.println("Message: " + ((GiftItem) currentItem).getMessage());
-            System.out.println();
+            if (!Objects.equals(currentItem.getMessage(), "No message")) {
+                System.out.println("Item " + (i + 1));
+                System.out.println("Name: " + currentProduct.getName());
+                System.out.println("Description:" + currentProduct.getDescription());
+                System.out.println("Price: $" + currentProduct.getPrice());
+                System.out.println("Tax Type: " + currentProduct.getTaxType());
+                System.out.println("Message: " + currentItem.getMessage());
+                System.out.println();
+            }
         }
     }
 
@@ -291,8 +292,13 @@ public class ShoppingCartView {
 
     public void displayAllCarts() {
         ShoppingCartController.getInstance().sort();
+        System.out.println();
         for (ShoppingCart cart : ShoppingCartController.getInstance().getAllShoppingCarts()) {
+            System.out.println("#Cart");
             cart.print(false);
+            if (cart.getAllItems() == null) {
+                ShoppingCartController.getInstance().getAllShoppingCarts().remove(cart);
+            }
             System.out.println();
         }
     }

@@ -33,6 +33,9 @@ public class ProductView {
             System.out.println("Description: " + product.getDescription());
             System.out.println("Quantity: " + product.getQuantity());
             System.out.println("Price: $" + product.getPrice());
+            if (product instanceof PhysicalProduct) {
+                System.out.println("Weight: " + ((PhysicalProduct) product).getWeight());
+            }
             index += 1;
             System.out.println();
         }
