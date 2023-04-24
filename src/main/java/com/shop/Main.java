@@ -2,11 +2,13 @@ package com.shop;
 
 import java.util.Scanner;
 
+import com.shop.utils.ReadFile;
 import com.shop.views.ProductView;
 import com.shop.views.ShoppingCartView;
 
 public class Main {
     public static void main(String[] args) {
+        ReadFile.loadProduct();
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
 

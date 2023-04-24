@@ -1,6 +1,7 @@
 package com.shop.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -110,16 +111,12 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         return true;
     }
 
-    // Remove method for both general and gift item
-    public boolean removeProduct(String productName, int quantity) {
+    // Remove method for general item
+    public boolean removeNormalItem(String productName, int quantity) {
         int count = 0;
-        boolean isAGift = false;
-        for (ProductItem productItem : getAllItems()) {
+        for (ProductItem productItem : normalItems) {
             if (productItem.getProduct().getName().equals(productName)) {
                 count += 1;
-                if (productItem instanceof GiftItem) {
-                    isAGift = true;
-                }
             }
         }
 
@@ -134,24 +131,13 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             totalWeight -= (quantity * ((PhysicalProduct) chosenProduct).getWeight());
         }
 
-        // Remove i item with the provided name, could be item with any messages, the
-        // user will manually update the message if needed
+        // Remove i item with the provided name
         for (int i = 0; i < quantity; i++) {
-            if (isAGift) {
-                for (int j = 0; j < giftItems.size(); j++) {
-                    ProductItem currentItem = giftItems.get(j);
-                    if (currentItem.getProduct().getName().equals(productName)) {
-                        giftItems.remove(j);
-                        break;
-                    }
-                }
-            } else {
-                for (int j = 0; j < normalItems.size(); j++) {
-                    ProductItem currentItem = normalItems.get(j);
-                    if (currentItem.getProduct().getName().equals(productName)) {
-                        normalItems.remove(j);
-                        break;
-                    }
+            for (int j = 0; j < normalItems.size(); j++) {
+                ProductItem currentItem = normalItems.get(j);
+                if (currentItem.getProduct().getName().equals(productName)) {
+                    normalItems.remove(j);
+                    break;
                 }
             }
         }
@@ -159,6 +145,20 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         productController.updateProductQuantity(productName, -quantity);
         return true;
     }
+
+    public boolean removeGiftItem(String productName, int quantity, List<Integer> index) {
+        boolean removed = false;
+        for (Integer i : index) {
+            giftItems.set(i, null);
+            removed = true;
+        }
+        // remove all null elements from the list
+        giftItems.removeAll(Collections.singleton(null));
+        productController.updateProductQuantity(productName, -quantity);
+        return removed;
+    }
+
+    //
 
     public boolean applyCoupon(String coupon) {
         // If there is no such coupon
@@ -169,7 +169,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         String productNameThatTiedToCurrentCoupon = Coupon.getAllCoupon().get(coupon).getProduct().getName();
 
         int numberOfProductInCart = 0;
-        for (ProductItem productItem : normalItems) {
+        for (ProductItem productItem : getAllItems()) {
             if (productItem.getProduct().getName().equals(productNameThatTiedToCurrentCoupon)) {
                 numberOfProductInCart += 1;
             }

@@ -1,0 +1,1 @@
+physical,Iphone 13,very good phone,20,1500,NORMAL_TAX,true,5,IPHONE100,PRICE,100

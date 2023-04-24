@@ -128,10 +128,42 @@ public class ShoppingCartView {
                 System.out.println("Invalid input");
                 return;
             }
-            boolean isRemove = currentCart.removeProduct(productName, removeQuantity);
-            System.out.println();
-            if (isRemove) {
+            boolean isRemoved = false;
+            boolean currentProductIsAGift = productController.getProduct(productName).canBeGifted();
+            if (currentProductIsAGift) {
+                System.out.println();
+                HashSet<Integer> validInput = new HashSet<>();
+                List<Integer> removeIndexList = new ArrayList<>();
+                for (int i = 0; i < currentCart.getGiftItems().size(); i++) {
+                    GiftItem currentItem = currentCart.getGiftItems().get(i);
+                    if (currentItem.getProduct().getName().equals(productName)) {
+                        System.out.println("Item " + (i + 1));
+                        System.out.println("Name: " + (currentItem.getProduct().getName()));
+                        System.out.println("Message: " + currentItem.getMessage());
+                        System.out.println();
+                        validInput.add(i);
+                    }
+                }
+                System.out.println("This is a gift item, please specify the item number you want to remove");
+                for (int i = 0; i < removeQuantity; i++) {
+                    System.out.print((i + 1) + ". Remove item number: ");
+                    int itemNumberToBeRemoved = scanner.nextInt();
+                    scanner.nextLine();
+                    itemNumberToBeRemoved -= 1;
+                    if (!validInput.contains(itemNumberToBeRemoved)) {
+                        System.out.println("Invalid item number, try again");
+                        return;
+                    }
+                    removeIndexList.add(itemNumberToBeRemoved);
+                    System.out.println();
+                }
+                isRemoved = currentCart.removeGiftItem(productName, removeQuantity, removeIndexList);
+            } else {
+                isRemoved = currentCart.removeNormalItem(productName, removeQuantity);
+            }
 
+            System.out.println();
+            if (isRemoved) {
                 System.out.println("Successfully removed " + removeQuantity + " " + productName);
             } else {
                 System.out.println("Remove unsucessfully, please check your input again");
@@ -150,7 +182,7 @@ public class ShoppingCartView {
         if (success) {
             System.out.println("Success");
         } else {
-            System.out.println("Invalid coupon");
+            System.out.println("Fail to apply coupon, please check again");
         }
     }
 
