@@ -2,17 +2,22 @@ package com.shop.utils;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.shop.controllers.ProductController;
+import com.shop.controllers.ShoppingCartController;
 import com.shop.models.Coupon;
 import com.shop.models.CouponType;
 import com.shop.models.DigitalProduct;
 import com.shop.models.PhysicalProduct;
 import com.shop.models.Product;
+import com.shop.models.ShoppingCart;
 import com.shop.models.TaxType;
 
 public class ReadFile {
     private static ProductController productController = ProductController.getInstance();
+    private static ShoppingCartController shoppingCartController = ShoppingCartController.getInstance();
 
     public static void loadProduct() {
         try {
@@ -50,5 +55,46 @@ public class ReadFile {
         } catch (Exception e) {
             System.out.println("Fail to load products.txt");
         }
+    }
+
+    public static void loadCart() {
+        try {
+            Files.lines(Paths.get("./src/main/java/com/shop/data/carts.txt"))
+                    .forEach(line -> {
+                        ShoppingCart cart = new ShoppingCart();
+                        String[] fields = line.split(",");
+                        String couponCode = fields[0];
+                        String date = fields[1];
+                        if (couponCode.trim().length() != 0) {
+                            cart.setCoupon(couponCode);
+                        }
+                        cart.setDate(date);
+
+                        for (int i = 2; i < fields.length; i++) {
+                            String[] productAndMessage = fields[i].split("=");
+                            Product currentProduct = productController.getProduct(productAndMessage[0]);
+                            if (productAndMessage.length == 2) {
+                                List<String> messages = new ArrayList<>();
+                                messages.add(productAndMessage[1]);
+                                cart.addProduct(productAndMessage[0], 1, messages);
+                            } else if (productAndMessage.length == 1) {
+                                if (currentProduct.canBeGifted()) {
+                                    cart.addProduct(productAndMessage[0], 1, new ArrayList<>());
+                                } else {
+                                    cart.addProduct(productAndMessage[0], 1);
+                                }
+                            }
+                        }
+
+                        cart.applyCoupon(couponCode);
+
+                        shoppingCartController.addACart(cart);
+                    });
+
+            shoppingCartController.createNewCart();
+        } catch (Exception e) {
+            System.out.println("There is a problem reading carts.txt");
+        }
+
     }
 }

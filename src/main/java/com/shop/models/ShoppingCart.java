@@ -16,6 +16,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
     private double couponPrice = 0;
     private double totalWeight;
     private String date = null;
+    private final double shippingFeeBased = 0.1;
     private ProductController productController = ProductController.getInstance();
 
     public ShoppingCart() {
@@ -43,6 +44,14 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
 
     public void setTotalWeight(double totalWeight) {
         this.totalWeight = totalWeight;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public List<ProductItem> getNormalItems() {
@@ -227,7 +236,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             double productTax = item.getProduct().getTaxRate() * item.getProduct().getPrice();
             totalAfterTax += (productTax + item.getProduct().getPrice());
         }
-        double shippingFee = this.getTotalWeight() * 0.1;
+        double shippingFee = this.getTotalWeight() * shippingFeeBased;
 
         return totalAfterTax - couponPrice + shippingFee;
     }
@@ -242,6 +251,9 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             System.out.println("Description: " + currentProduct.getDescription());
             System.out.println("Price: $" + currentProduct.getPrice());
             System.out.println("Tax Type: " + currentProduct.getTaxType());
+            if (currentProduct instanceof PhysicalProduct) {
+                System.out.println("Weight: " + String.format("%.1f", ((PhysicalProduct) currentProduct).getWeight()));
+            }
             if (productItem instanceof GiftItem) {
                 System.out.println("Message: " + ((GiftItem) productItem).getMessage());
             }
@@ -261,7 +273,7 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             System.out.println("Price deducted from coupon: " + this.getCouponPrice());
         }
         System.out.println("Tax: " + tax);
-        System.out.println("Shipping fee: " + String.format("%.1f", totalWeight * 0.1));
+        System.out.println("Shipping fee: " + String.format("%.1f", totalWeight * shippingFeeBased));
         System.out.println("Total price: " + String.format("%.1f", calculatePrice()));
 
         if (date != null) {

@@ -248,8 +248,13 @@ public class ShoppingCartView {
     public void viewACart() throws InputMismatchException {
         System.out.println();
         ArrayList<ShoppingCart> allShoppingCarts = shoppingCartController.getAllShoppingCarts();
+        if (allShoppingCarts.size() == 0) {
+            System.out.println("There is no cart in the system");
+            return;
+        }
         for (int i = 0; i < allShoppingCarts.size(); i++) {
             System.out.println("Shopping cart number " + (i + 1));
+            System.out.println();
         }
         System.out.println();
         try {
@@ -273,11 +278,11 @@ public class ShoppingCartView {
     }
 
     public void displayAllCarts() {
-        ShoppingCartController.getInstance().sort();
+        List<ShoppingCart> sortedShoppingCarts = shoppingCartController.getSortedShoppingCarts();
         System.out.println();
         int index = 1;
         boolean found = false;
-        for (ShoppingCart cart : ShoppingCartController.getInstance().getAllShoppingCarts()) {
+        for (ShoppingCart cart : sortedShoppingCarts) {
             if (cart.getTotalWeight() == 0) {
                 continue;
             }
@@ -299,11 +304,11 @@ public class ShoppingCartView {
     }
 
     public void printReceipt() {
+        System.out.println();
         if (shoppingCartController.getCurrentCart().getAllItems().size() == 0) {
             System.out.println("There is 0 item in the current cart");
             return;
         }
-        System.out.println();
         shoppingCartController.getCurrentCart().print(true);
         shoppingCartController.createNewCart();
     }

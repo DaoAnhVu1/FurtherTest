@@ -2,6 +2,7 @@ package com.shop.controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.shop.models.ShoppingCart;
 
@@ -29,6 +30,10 @@ public class ShoppingCartController {
         return allShoppingCarts.get(allShoppingCarts.size() - 1);
     }
 
+    public void addACart(ShoppingCart cart) {
+        allShoppingCarts.add(cart);
+    }
+
     public void createNewCart() {
         allShoppingCarts.add(new ShoppingCart());
     }
@@ -37,7 +42,9 @@ public class ShoppingCartController {
         return allShoppingCarts;
     }
 
-    public void sort() {
-        Collections.sort(allShoppingCarts, Collections.reverseOrder());
+    public List<ShoppingCart> getSortedShoppingCarts() {
+        List<ShoppingCart> sortedCarts = new ArrayList<>(allShoppingCarts);
+        Collections.sort(sortedCarts, Collections.reverseOrder());
+        return sortedCarts;
     }
 }

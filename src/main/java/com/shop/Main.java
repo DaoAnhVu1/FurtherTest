@@ -9,6 +9,7 @@ import com.shop.views.ShoppingCartView;
 public class Main {
     public static void main(String[] args) {
         ReadFile.loadProduct();
+        ReadFile.loadCart();
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
 
