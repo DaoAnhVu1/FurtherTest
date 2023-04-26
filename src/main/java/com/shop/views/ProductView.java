@@ -1,7 +1,10 @@
 package com.shop.views;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.shop.controllers.ProductController;
@@ -22,12 +25,18 @@ public class ProductView {
     public void viewProducts() {
         System.out.println();
         HashMap<String, Product> allProducts = productController.getAllProducts();
+        List<String> sortedProductNames = new ArrayList<>(allProducts.keySet());
+        Collections.sort(sortedProductNames, (name1, name2) -> {
+            char firstChar1 = name1.toLowerCase().charAt(0);
+            char firstChar2 = name2.toLowerCase().charAt(0);
+            return Character.compare(firstChar1, firstChar2);
+        });
         if (allProducts.isEmpty()) {
             System.out.println("There is no product in store, try adding some");
             return;
         }
         int index = 1;
-        for (String currentProduct : allProducts.keySet()) {
+        for (String currentProduct : sortedProductNames) {
             Product product = allProducts.get(currentProduct);
             System.out.println(index + ": " + product.toString());
             System.out.println("Description: " + product.getDescription());
@@ -107,12 +116,7 @@ public class ProductView {
     }
 
     public void editProduct() throws InputMismatchException {
-        System.out.println();
-        int index = 1;
-        for (String productName : ProductController.getInstance().getAllProducts().keySet()) {
-            System.out.println(index + ": " + productName);
-            index += 1;
-        }
+        viewProducts();
         try {
             System.out.print("Enter the name of the product you want to edit: ");
             String name = scanner.nextLine();
@@ -129,7 +133,7 @@ public class ProductView {
                 System.out.println();
                 System.out.println("Current product: " + chosenProduct.getName());
                 System.out.println();
-                System.out.println("Enter the field you want to update: ");
+                System.out.println("Enter the field you want to update ");
                 System.out.println("1.Description: " + chosenProduct.getDescription());
                 System.out.println("2.Quantity: " + chosenProduct.getQuantity());
                 System.out.println("3.Price: " + chosenProduct.getPrice());

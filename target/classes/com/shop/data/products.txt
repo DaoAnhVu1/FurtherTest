@@ -1,1 +1,9 @@
-physical,Iphone 13,very good phone,20,1500,NORMAL_TAX,true,5,IPHONE100,PRICE,100
+physical,Iphone 13,latest phone from apple,20,1500,NORMAL_TAX,true,5,IPHONE100,PRICE,100
+digital,harry porter part 1,famous books worldwide,100,30,NORMAL_TAX,true,0
+physical,Ipad 4,good tablet for working,50,1000,NORMAL_TAX,true,10,IPAD20,PERCENT,0.2
+digital,harry porter part 2,famous books worldwide,100,30,NORMAL_TAX,true,0
+physical,logitech headphone,well known headphone from Logitech,30,100,NORMAL_TAX,true,3
+physical,toothpaste,clean your teeth with the latest tech,100,5,TAX_FREE,false,3
+physical,mousepad from logitech,high quality mousepad,100,10,NORMAL_TAX,false,1
+physical,energy drink,drink and improve your productivity,100,2,TAX_FREE,false,1
+digital,The Dark Knight Return,digital version of famous comic book,200,20,NORMAL_TAX,false,0 

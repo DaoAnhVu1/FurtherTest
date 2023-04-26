@@ -23,8 +23,8 @@ public class Main {
             System.out.println("4. Remove products");
             System.out.println("5. Add product to current cart");
             System.out.println("6. Remove product from current cart");
-            System.out.println("7. Update messages in current cart");
-            System.out.println("8. View messages in current cart");
+            System.out.println("7. View current cart");
+            System.out.println("8. Update messages in current cart");
             System.out.println("9. Apply coupons");
             System.out.println("10. Remove coupons");
             System.out.println("11. View a cart");
@@ -49,8 +49,8 @@ public class Main {
                 case 4 -> productView.removeProduct();
                 case 5 -> shoppingCartView.addProductToCart();
                 case 6 -> shoppingCartView.removeProductFromCart();
-                case 7 -> shoppingCartView.updateMessages();
-                case 8 -> shoppingCartView.viewMessages();
+                case 7 -> shoppingCartView.viewCurrentCart();
+                case 8 -> shoppingCartView.updateMessages();
                 case 9 -> shoppingCartView.applyCoupon();
                 case 10 -> shoppingCartView.removeCoupon();
                 case 11 -> shoppingCartView.viewACart();

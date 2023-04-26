@@ -27,18 +27,9 @@ public class ShoppingCartView {
             System.out.println("There is no product in store, try adding some");
             return;
         }
-        for (int i = 0; i < productList.size(); i++) {
-            System.out.println((i + 1) + ": " + productList.get(i).getName());
-            System.out.println("Available: " + productList.get(i).getQuantity());
-            System.out.println("Price: " + productList.get(i).getPrice());
-            System.out.println("Tax type: " + productList.get(i).getTaxType());
-            if (productList.get(i).canBeGifted()) {
-                System.out.println("Gift-able: Yes");
-            } else {
-                System.out.println("Gift-able: No");
-            }
-            System.out.println();
-        }
+
+        ProductView productView = new ProductView(scanner);
+        productView.viewProducts();
 
         try {
             System.out.print("Enter the name of the product you want to add: ");
@@ -52,6 +43,11 @@ public class ShoppingCartView {
             System.out.print("Enter the quantity you want to add: ");
             int wantedQuantity = scanner.nextInt();
             scanner.nextLine();
+
+            if (wantedQuantity <= 0) {
+                System.out.println("You cannot add 0 or less item");
+                return;
+            }
 
             int availableQuantity = chosenProduct.getQuantity();
 
@@ -124,7 +120,7 @@ public class ShoppingCartView {
             scanner.nextLine();
 
             if (removeQuantity <= 0 || removeQuantity > currentCart.getAllItems().size()) {
-                System.out.println("Invalid input");
+                System.out.println("Invalid quantity input");
                 return;
             }
             boolean isRemoved = false;
@@ -173,11 +169,18 @@ public class ShoppingCartView {
         }
     }
 
+    public void viewCurrentCart() {
+        System.out.println();
+        ShoppingCart currentCart = shoppingCartController.getCurrentCart();
+        currentCart.print(false);
+    }
+
     public void applyCoupon() {
         ShoppingCart currentCart = ShoppingCartController.getInstance().getCurrentCart();
         System.out.print("Enter coupon: ");
         String coupon = scanner.nextLine();
         boolean success = currentCart.applyCoupon(coupon);
+        System.out.println();
         if (success) {
             System.out.println("Success");
         } else {
@@ -188,6 +191,7 @@ public class ShoppingCartView {
     public void removeCoupon() {
         ShoppingCart currentCart = ShoppingCartController.getInstance().getCurrentCart();
         boolean remove = currentCart.removeCoupon();
+        System.out.println();
         if (remove) {
             System.out.println("Successfully remove coupon");
             return;
@@ -241,28 +245,6 @@ public class ShoppingCartView {
         }
     }
 
-    public void viewMessages() {
-        System.out.println();
-        ShoppingCart currentCart = ShoppingCartController.getInstance().getCurrentCart();
-        if (currentCart.getGiftItems().size() == 0) {
-            System.out.println("There no gift-able item in your cart");
-            return;
-        }
-        for (int i = 0; i < currentCart.getGiftItems().size(); i++) {
-            GiftItem currentItem = currentCart.getGiftItems().get(i);
-            Product currentProduct = currentItem.getProduct();
-            if (!Objects.equals(currentItem.getMessage(), "No message")) {
-                System.out.println("Item " + (i + 1));
-                System.out.println("Name: " + currentProduct.getName());
-                System.out.println("Description:" + currentProduct.getDescription());
-                System.out.println("Price: $" + currentProduct.getPrice());
-                System.out.println("Tax Type: " + currentProduct.getTaxType());
-                System.out.println("Message: " + currentItem.getMessage());
-                System.out.println();
-            }
-        }
-    }
-
     public void viewACart() throws InputMismatchException {
         System.out.println();
         ArrayList<ShoppingCart> allShoppingCarts = shoppingCartController.getAllShoppingCarts();
@@ -293,13 +275,26 @@ public class ShoppingCartView {
     public void displayAllCarts() {
         ShoppingCartController.getInstance().sort();
         System.out.println();
+        int index = 1;
+        boolean found = false;
         for (ShoppingCart cart : ShoppingCartController.getInstance().getAllShoppingCarts()) {
-            System.out.println("#Cart");
+            if (cart.getTotalWeight() == 0) {
+                continue;
+            }
+            System.out.println("#Cart " + index);
+            System.out.println();
+            index += 1;
             cart.print(false);
-            if (cart.getAllItems() == null) {
-                ShoppingCartController.getInstance().getAllShoppingCarts().remove(cart);
+            found = true;
+            System.out.println("Total weight: " + cart.getTotalWeight());
+            for (int i = 0; i < 20; i++) {
+                System.out.print("-");
             }
             System.out.println();
+        }
+
+        if (!found) {
+            System.out.println("There is no cart in the system");
         }
     }
 
@@ -308,6 +303,7 @@ public class ShoppingCartView {
             System.out.println("There is 0 item in the current cart");
             return;
         }
+        System.out.println();
         shoppingCartController.getCurrentCart().print(true);
         shoppingCartController.createNewCart();
     }

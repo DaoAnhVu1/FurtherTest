@@ -38,6 +38,6 @@ public class ShoppingCartController {
     }
 
     public void sort() {
-        Collections.sort(allShoppingCarts);
+        Collections.sort(allShoppingCarts, Collections.reverseOrder());
     }
 }
