@@ -1,10 +1,10 @@
 physical,Coffee Maker,Make delicious coffee at home,50,200,NORMAL_TAX,true,2
 physical,Bluetooth Speaker,Portable speaker with great sound quality,100,100,NORMAL_TAX,true,1
-physical,Running Shoes,Comfortable shoes for running and working out,30,120,NORMAL_TAX,true,0.5,SHOES15,PERCENT,0.15
+physical,Running Shoes,Comfortable shoes for running and working out,30,120,NORMAL_TAX,true,0.5,SHOES15,PERCENT,15
 digital,Microsoft Office 365,Subscription to Microsoft's suite of productivity apps,500,100,TAX_FREE,false,0
-physical,Resistance Bands,Improve your strength and flexibility with these bands,100,50,NORMAL_TAX,true,0.2,RESIST10,PERCENT,0.1
-physical,iPhone 13,The latest smartphone from Apple,50,1000,NORMAL_TAX,true,0.2,IPHONE50,PERCENT,0.05,IPHONE100,PRICE,100
-physical,iPad Pro,Powerful tablet for productivity and creativity,30,1200,NORMAL_TAX,true,1,IPADPRO20,PERCENT,0.2
+physical,Resistance Bands,Improve your strength and flexibility with these bands,100,50,NORMAL_TAX,true,0.2,RESIST10,PERCENT,10
+physical,iPhone 13,The latest smartphone from Apple,50,1000,NORMAL_TAX,true,0.2,IPHONE50,PERCENT,5,IPHONE100,PRICE,100
+physical,iPad Pro,Powerful tablet for productivity and creativity,30,1200,NORMAL_TAX,true,1,IPADPRO20,PERCENT,20
 physical,PS5 Game Console,The latest gaming console from Sony,100,500,TAX_FREE,true,50
 physical,Apple Watch Series 7,Stay connected and track your health,75,400,NORMAL_TAX,true,0.5
 physical,Wireless Earbuds,High-quality earbuds with noise-cancelling technology,100,150,NORMAL_TAX,true,0.3
@@ -12,24 +12,24 @@ digital,Adobe Creative Cloud,Subscription to Adobe's suite of creative apps,200,
 physical,PlayStation 5 DualSense Wireless Controller,Experience haptic feedback and adaptive triggers,150,70,NORMAL_TAX,true,0.3
 physical,Smart Home Security System,Monitor your home and keep it safe with this system,25,300,LUXURY_TAX,true,2
 physical,Apple AirPods Pro,Wireless earbuds with active noise-cancellation,100,250,NORMAL_TAX,true,0.3
-physical,PS5 Game - Spider-Man: Miles Morales,Experience the ultimate adventure as Spider-Man,200,60,NORMAL_TAX,true,0.1,SPIDER10,PERCENT,0.1
-physical,Whey Protein Powder,High-quality protein powder for muscle growth,50,50,NORMAL_TAX,true,1,WHEY10,PERCENT,0.1
+physical,PS5 Game - Spider-Man: Miles Morales,Experience the ultimate adventure as Spider-Man,200,60,NORMAL_TAX,true,0.1,SPIDER10,PERCENT,10
+physical,Whey Protein Powder,High-quality protein powder for muscle growth,50,50,NORMAL_TAX,true,1,WHEY10,PERCENT,10
 physical,Weight Set with Barbell,Complete weight set for strength training,20,500,LUXURY_TAX,true,50,WEIGHT20,PRICE,20
-physical,Pull-Up Bar,Easy to install and use,100,50,NORMAL_TAX,true,2,PULLUP5,PERCENT,0.05
-physical,Creatine Monohydrate Powder,Boost your workout performance and recovery,75,30,NORMAL_TAX,true,0.5,CREATINE15,PERCENT,0.15
-physical,BCAA Capsules,Branched-chain amino acids for muscle recovery,100,25,NORMAL_TAX,true,0.2,BCAA5,PERCENT,0.05
+physical,Pull-Up Bar,Easy to install and use,100,50,NORMAL_TAX,true,2,PULLUP5,PERCENT,5
+physical,Creatine Monohydrate Powder,Boost your workout performance and recovery,75,30,NORMAL_TAX,true,0.5,CREATINE15,PERCENT,15
+physical,BCAA Capsules,Branched-chain amino acids for muscle recovery,100,25,NORMAL_TAX,true,0.2,BCAA10,PERCENT,10
 physical,Resistance Bands Set,Versatile bands for strength and flexibility,50,40,NORMAL_TAX,true,0.5
 physical,Adjustable Dumbbell Set,Space-saving and easy to use,30,300,NORMAL_TAX,true,10
 physical,Weighted Jump Rope,Get an intense cardio workout with this weighted jump rope,100,20,NORMAL_TAX,true,0.5
 physical,Kettlebell Set,Complete set of kettlebells for full-body workouts,20,200,NORMAL_TAX,true,20
 physical,Yoga Mat,High-quality mat for yoga and other exercises,100,30,NORMAL_TAX,true,2
-digital,Red Dead Redemption 2,A digital copy of a popular western-themed game,100,59.99,NORMAL_TAX,true,0.5,REDEMPTION10,PRICE,10
-digital,The Godfather Trilogy,A digital collection of classic gangster films,50,24.99,LUXURY_TAX,true,0,GODFATHER20,PERCENT,0.2
-digital,The Witcher 3: Wild Hunt,A digital copy of a critically acclaimed fantasy game,200,39.99,NORMAL_TAX,false,0
-digital,The Lord of the Rings Extended Editions,A digital collection of the epic fantasy films,100,49.99,LUXURY_TAX,false,0
-digital,Assassin's Creed Valhalla,A digital copy of the latest game in the popular historical adventure series,50,59.99,NORMAL_TAX,true,0,VALHALLA15,PERCENT,0.15
-digital,The Shawshank Redemption,A digital copy of a beloved prison drama film,200,9.99,NORMAL_TAX,true,0,SHAWSHANK10,PRICE,10
-digital,The Last of Us Part II,A digital copy of a highly anticipated post-apocalyptic game,100,59.99,NORMAL_TAX,false,0
-digital,The Matrix Trilogy,A digital collection of the iconic sci-fi action films,50,29.99,LUXURY_TAX,true,0,MATRIX25,PERCENT,0.25
-digital,Call of Duty: Modern Warfare,A digital copy of the latest installment in the popular first-person shooter series,200,59.99,NORMAL_TAX,false,0
-digital,The Sopranos: The Complete Series,A digital collection of the acclaimed crime drama TV series,100,49.99,LUXURY_TAX,true,0,SOPRANOS20,PRICE,20
+digital,Red Dead Redemption 2,A digital copy of a popular western-themed game,100,60,NORMAL_TAX,true,0.5,REDEMPTION10,PRICE,10
+digital,The Godfather Trilogy,A digital collection of classic gangster films,50,25,LUXURY_TAX,true,0,GODFATHER20,PERCENT,20
+digital,The Witcher 3: Wild Hunt,A digital copy of a critically acclaimed fantasy game,200,40,NORMAL_TAX,false,0
+digital,The Lord of the Rings Extended Editions,A digital collection of the epic fantasy films,100,50,LUXURY_TAX,false,0
+digital,Assassin's Creed Valhalla,A digital copy of the latest game in the popular historical adventure series,50,60,NORMAL_TAX,true,0,VALHALLA15,PERCENT,15
+digital,The Shawshank Redemption,A digital copy of a beloved prison drama film,200,10,NORMAL_TAX,true,0,SHAWSHANK10,PRICE,10
+digital,The Last of Us Part II,A digital copy of a highly anticipated post-apocalyptic game,100,30,NORMAL_TAX,false,0
+digital,The Matrix Trilogy,A digital collection of the iconic sci-fi action films,50,30,LUXURY_TAX,true,0,MATRIX25,PERCENT,25
+digital,Call of Duty: Modern Warfare,A digital copy of the latest installment in the popular first-person shooter series,200,60,NORMAL_TAX,false,0
+digital,The Sopranos: The Complete Series,A digital collection of the acclaimed crime drama TV series,100,50,LUXURY_TAX,true,0,SOPRANOS20,PRICE,20

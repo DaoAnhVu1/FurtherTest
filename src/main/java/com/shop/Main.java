@@ -26,8 +26,8 @@ public class Main {
             System.out.println("6. Remove product from current cart");
             System.out.println("7. View current cart");
             System.out.println("8. Update messages in current cart");
-            System.out.println("9. Apply coupons");
-            System.out.println("10. Remove coupons");
+            System.out.println("9. Apply coupons to current cart");
+            System.out.println("10. Remove coupons from current cart");
             System.out.println("11. View a cart");
             System.out.println("12. Sort and display all carts");
             System.out.println("13. Print receipts and create new cart");

@@ -212,7 +212,8 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
 
         if (currentCoupon.getType() == CouponType.PERCENT) {
             // If it is percent , calculate the discount and then multiply by the quantity
-            couponPrice = currentCoupon.getProduct().getPrice() * currentCoupon.getValue() * numberOfProductInCart;
+            couponPrice = currentCoupon.getProduct().getPrice() * (currentCoupon.getValue() / 100)
+                    * numberOfProductInCart;
         } else if (currentCoupon.getType() == CouponType.PRICE) {
             // If it is price, just multiply the value with the item in cart
             couponPrice = currentCoupon.getValue() * numberOfProductInCart;
@@ -238,7 +239,8 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         }
         double shippingFee = this.getTotalWeight() * shippingFeeBased;
 
-        return totalAfterTax - couponPrice + shippingFee;
+        double result = totalAfterTax - couponPrice + shippingFee;
+        return result >= 0 ? result : 0;
     }
 
     public void print(boolean finalStatus) {

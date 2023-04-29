@@ -252,7 +252,7 @@ public class ShoppingCartView {
             System.out.println("There is no cart in the system");
             return;
         }
-        for (int i = 0; i < allShoppingCarts.size(); i++) {
+        for (int i = 0; i < allShoppingCarts.size() - 1; i++) {
             System.out.println("Shopping cart number " + (i + 1));
             System.out.println();
         }
@@ -264,7 +264,7 @@ public class ShoppingCartView {
             scanner.nextLine();
             System.out.println();
 
-            if (chosenIndex < 0 || chosenIndex >= allShoppingCarts.size()) {
+            if (chosenIndex < 0 || chosenIndex >= allShoppingCarts.size() - 1) {
                 System.out.println("Invalid input, try again");
                 return;
             }

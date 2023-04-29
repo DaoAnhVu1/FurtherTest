@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.shop.controllers.ProductController;
+import com.shop.models.Coupon;
+import com.shop.models.CouponType;
 import com.shop.models.DigitalProduct;
 import com.shop.models.PhysicalProduct;
 import com.shop.models.Product;
@@ -127,7 +129,6 @@ public class ProductView {
                 return;
             }
 
-            boolean isPhysical = chosenProduct instanceof PhysicalProduct;
             boolean editing = true;
             while (editing) {
                 System.out.println();
@@ -137,9 +138,7 @@ public class ProductView {
                 System.out.println("1.Description: " + chosenProduct.getDescription());
                 System.out.println("2.Quantity: " + chosenProduct.getQuantity());
                 System.out.println("3.Price: " + chosenProduct.getPrice());
-                if (isPhysical) {
-                    System.out.println("4.Weight: " + ((PhysicalProduct) chosenProduct).getWeight());
-                }
+                System.out.println("4.Add new coupon to this product");
                 System.out.println("0: Exit editing");
                 System.out.println();
                 System.out.print("Your choice: ");
@@ -165,12 +164,27 @@ public class ProductView {
                         chosenProduct.setPrice(newPrice);
                     }
                     case 4 -> {
-                        if (!isPhysical)
+                        String couponCode;
+                        String couponType;
+                        int value;
+                        System.out.print("Enter the code for the new coupon: ");
+                        couponCode = scanner.nextLine();
+                        System.out.print("Enter the type of the new coupon (PRICE, PERCENT): ");
+                        couponType = scanner.nextLine();
+
+                        if (!couponType.equalsIgnoreCase("PRICE") && !couponType.equalsIgnoreCase("PERCENT")) {
+                            System.out.println("Invalid input");
                             break;
-                        System.out.print("Enter the new weight: ");
-                        double newWeight = scanner.nextDouble();
+                        }
+
+                        System.out.print("Enter the value of the coupon: ");
+                        value = scanner.nextInt();
                         scanner.nextLine();
-                        ((PhysicalProduct) chosenProduct).setWeight(newWeight);
+
+                        Coupon newCoupon = new Coupon(couponCode, CouponType.valueOf(couponType), value);
+                        newCoupon.setProduct(chosenProduct);
+                        System.out.println();
+                        System.out.println("Successfully create a new coupon");
                     }
                     case 0 -> editing = false;
                     default -> System.out.println("Invalid choice. Please try again.");
@@ -196,6 +210,10 @@ public class ProductView {
         }
         productController.removeProduct(productName);
         System.out.println("Successfully remove: " + productName);
+    }
+
+    public void addCoupon() {
+
     }
 
 }
