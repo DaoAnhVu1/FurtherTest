@@ -22,7 +22,7 @@ public class ShoppingCartTest {
     @BeforeAll
     public static void setUp() {
         Coupon IphoneCoupon = new Coupon("IPHONE100", CouponType.PRICE, 100);
-        Coupon BookCoupon = new Coupon("HARRY10", CouponType.PERCENT, 0.1);
+        Coupon BookCoupon = new Coupon("HARRY10", CouponType.PERCENT, 10);
         Product product1 = new PhysicalProduct("Iphone 13", "very nice phone", 20, 1500, TaxType.NORMAL_TAX, true, 2);
         Product product2 = new DigitalProduct("Harry Porter", "E-books version of harry porter", 20, 20,
                 TaxType.TAX_FREE, false);

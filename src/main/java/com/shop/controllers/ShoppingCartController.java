@@ -10,6 +10,7 @@ public class ShoppingCartController {
     private static ShoppingCartController instance = null;
     private ArrayList<ShoppingCart> allShoppingCarts;
 
+    // Singleton Pattern
     private ShoppingCartController() {
         allShoppingCarts = new ArrayList<>();
     }
@@ -21,6 +22,7 @@ public class ShoppingCartController {
         return instance;
     }
 
+    // Get the most recent cart in the system
     public ShoppingCart getCurrentCart() {
         if (allShoppingCarts.size() == 0) {
             allShoppingCarts.add(new ShoppingCart());
@@ -42,6 +44,7 @@ public class ShoppingCartController {
         return allShoppingCarts;
     }
 
+    // Return the sorted cart based on weight without changing the original list
     public List<ShoppingCart> getSortedShoppingCarts() {
         List<ShoppingCart> sortedCarts = new ArrayList<>(allShoppingCarts);
         Collections.sort(sortedCarts, Collections.reverseOrder());

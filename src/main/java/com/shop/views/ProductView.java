@@ -28,6 +28,7 @@ public class ProductView {
         System.out.println();
         HashMap<String, Product> allProducts = productController.getAllProducts();
         List<String> sortedProductNames = new ArrayList<>(allProducts.keySet());
+        // Display product in sorted order
         Collections.sort(sortedProductNames, (name1, name2) -> {
             char firstChar1 = name1.toLowerCase().charAt(0);
             char firstChar2 = name2.toLowerCase().charAt(0);

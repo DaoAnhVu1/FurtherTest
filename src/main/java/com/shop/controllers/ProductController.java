@@ -13,6 +13,7 @@ public class ProductController {
         allProducts = new HashMap<>();
     }
 
+    // Singleton Pattern
     public static ProductController getInstance() {
         if (instance == null) {
             instance = new ProductController();
@@ -44,6 +45,7 @@ public class ProductController {
         return new ArrayList<>(allProducts.values());
     }
 
+    // Update product quantity, parameter quantity can be negative to increase the quantity if needed
     public void updateProductQuantity(String product, int quantity) {
         int previousQuantity = allProducts.get(product).getQuantity();
         if (quantity > previousQuantity) {

@@ -23,6 +23,7 @@ public class ReadFile {
         try {
             Files.lines(Paths.get("./src/main/java/com/shop/data/products.txt"))
                     .forEach(line -> {
+                        // Extract the fields on each line
                         String[] fields = line.split(",");
                         String productType = fields[0];
                         String name = fields[1];
@@ -33,6 +34,8 @@ public class ReadFile {
                         boolean canBeGifted = Boolean.parseBoolean(fields[6]);
                         double weight = Double.parseDouble(fields[7]);
                         Product finalProduct;
+
+                        // Create the product accordingly
                         if (productType.equals("physical")) {
                             finalProduct = new PhysicalProduct(name, description, quantity, price, taxType,
                                     canBeGifted, weight);
@@ -41,6 +44,7 @@ public class ReadFile {
                                     canBeGifted);
                         }
 
+                        // For each 3 fields after the 7th one, it represents one coupon
                         for (int i = 8; i < fields.length; i += 3) {
                             String code = fields[i];
                             CouponType type = CouponType.valueOf(fields[i + 1]);
@@ -61,6 +65,7 @@ public class ReadFile {
         try {
             Files.lines(Paths.get("./src/main/java/com/shop/data/carts.txt"))
                     .forEach(line -> {
+                        // Extracts fields for the shopping cart
                         ShoppingCart cart = new ShoppingCart();
                         String[] fields = line.split(",");
                         String couponCode = fields[0];
@@ -70,6 +75,8 @@ public class ReadFile {
                         }
                         cart.setDate(date);
 
+                        // For each field after the 2nd one, it represents a product, if there is any
+                        // message for a product, it will be appended by using = symbol
                         for (int i = 2; i < fields.length; i++) {
                             String[] productAndMessage = fields[i].split("=");
                             Product currentProduct = productController.getProduct(productAndMessage[0]);
