@@ -4,6 +4,11 @@ package com.shop.utils;
  * @author Group 4
  */
 
+/**
+ * @author Dao Anh Vu - s3926187 <Group4>
+ * @author Nguyen Dinh Khai - s3925921 <Group4>
+ */
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -69,7 +74,7 @@ public class ReadFile {
         try {
             Files.lines(Paths.get("./src/main/java/com/shop/data/carts.txt"))
                     .forEach(line -> {
-                        // Extracts fields for the shopping cart
+                        // Extract fields for the shopping cart
                         ShoppingCart cart = new ShoppingCart();
                         String[] fields = line.split(",");
                         String couponCode = fields[0];

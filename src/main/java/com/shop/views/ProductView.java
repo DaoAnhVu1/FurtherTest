@@ -1,5 +1,10 @@
 package com.shop.views;
 
+/**
+ * @author Dao Anh Vu - s3926187 <Group4>
+ * @author Nguyen Dinh Khai - s3925921 <Group4>
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +22,7 @@ import com.shop.models.TaxType;
 
 public class ProductView {
     private ProductController productController;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public ProductView(Scanner scanner) {
         productController = ProductController.getInstance();
@@ -29,7 +34,7 @@ public class ProductView {
         HashMap<String, Product> allProducts = productController.getAllProducts();
         List<String> sortedProductNames = new ArrayList<>(allProducts.keySet());
         // Display product in sorted order
-        Collections.sort(sortedProductNames, (name1, name2) -> {
+        sortedProductNames.sort((name1, name2) -> {
             char firstChar1 = name1.toLowerCase().charAt(0);
             char firstChar2 = name2.toLowerCase().charAt(0);
             return Character.compare(firstChar1, firstChar2);

@@ -1,15 +1,15 @@
 package com.shop.models;
 
 /**
- * @author Group 4
+ * @author Dao Anh Vu - s3926187 <Group4>
+ * @author Nguyen Dinh Khai - s3925921 <Group4>
  */
 
 public class PhysicalProduct extends Product {
     private double weight;
 
     public PhysicalProduct(String name, String description, int quantity, double price, TaxType taxType,
-            boolean canBeGifted,
-            double weight) {
+            boolean canBeGifted, double weight) {
         super(name, description, quantity, price, taxType, canBeGifted);
         this.weight = weight;
     }

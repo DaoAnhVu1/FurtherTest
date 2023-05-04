@@ -4,6 +4,11 @@ package com.shop.views;
  * @author Group 4
  */
 
+/**
+ * @author Dao Anh Vu - s3926187 <Group4>
+ * @author Nguyen Dinh Khai - s3925921 <Group4>
+ */
+
 import java.util.*;
 
 import com.shop.controllers.ProductController;
@@ -16,7 +21,7 @@ import com.shop.models.ShoppingCart;
 public class ShoppingCartView {
     private ShoppingCartController shoppingCartController;
     private ProductController productController;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public ShoppingCartView(Scanner scanner) {
         shoppingCartController = ShoppingCartController.getInstance();
