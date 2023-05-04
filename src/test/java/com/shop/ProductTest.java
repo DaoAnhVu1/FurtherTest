@@ -1,7 +1,7 @@
 package com.shop;
 
 /**
- * @author Dao Anh Vu - s3926187
+ * @author Group 4
  */
 
 import static org.junit.jupiter.api.Assertions.*;

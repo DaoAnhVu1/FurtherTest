@@ -1,8 +1,9 @@
 package com.shop.models;
 
 /**
- * @author Dao Anh Vu - s3926187
+ * @author Group 4
  */
+
 public class DigitalProduct extends Product {
     public DigitalProduct() {
     }

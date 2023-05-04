@@ -1,5 +1,9 @@
 package com.shop.models;
 
+/**
+ * @author Group 4
+ */
+
 import java.util.HashMap;
 
 public class Coupon {

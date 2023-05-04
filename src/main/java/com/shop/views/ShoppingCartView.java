@@ -1,5 +1,9 @@
 package com.shop.views;
 
+/**
+ * @author Group 4
+ */
+
 import java.util.*;
 
 import com.shop.controllers.ProductController;

@@ -1,5 +1,9 @@
 package com.shop.models;
 
+/**
+ * @author Group 4
+ */
+
 public class GiftItem extends ProductItem implements ItemCanBeGifted {
 
     private String message = "No message";

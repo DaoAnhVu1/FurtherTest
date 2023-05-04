@@ -1,5 +1,9 @@
 package com.shop.models;
 
+/**
+ * @author Group 4
+ */
+
 public interface ItemCanBeGifted {
     public String getMessage();
 

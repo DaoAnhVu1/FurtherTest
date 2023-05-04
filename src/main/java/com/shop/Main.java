@@ -1,5 +1,9 @@
 package com.shop;
 
+/**
+ * @author Group 4
+ */
+
 import java.util.Scanner;
 
 import com.shop.utils.ReadFile;

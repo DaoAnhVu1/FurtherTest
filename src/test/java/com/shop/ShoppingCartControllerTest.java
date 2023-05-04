@@ -1,5 +1,9 @@
 package com.shop;
 
+/**
+ * @author Group 4
+ */
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;

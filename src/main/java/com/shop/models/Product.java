@@ -1,7 +1,7 @@
 package com.shop.models;
 
 /**
- * @author Dao Anh Vu - s3926187
+ * @author Group 4
  */
 
 public abstract class Product {

@@ -140,6 +140,7 @@ public class ProductView {
                 System.out.println("2.Quantity: " + chosenProduct.getQuantity());
                 System.out.println("3.Price: " + chosenProduct.getPrice());
                 System.out.println("4.Add new coupon to this product");
+                System.out.println("5. Remove coupon from this product");
                 System.out.println("0: Exit editing");
                 System.out.println();
                 System.out.print("Your choice: ");
@@ -186,6 +187,46 @@ public class ProductView {
                         newCoupon.setProduct(chosenProduct);
                         System.out.println();
                         System.out.println("Successfully create a new coupon");
+                    }
+                    case 5 -> {
+                        ArrayList<Coupon> couponsFromProduct = new ArrayList<>();
+                        for (String coupon : Coupon.getAllCoupon().keySet()) {
+                            if (Coupon.getAllCoupon().get(coupon).getProduct().getName()
+                                    .equals(chosenProduct.getName())) {
+                                couponsFromProduct.add(Coupon.getAllCoupon().get(coupon));
+                            }
+                        }
+
+                        if (couponsFromProduct.size() == 0) {
+                            System.out.println("There is no coupon for this product");
+                            break;
+                        }
+
+                        int index = 1;
+                        int chosenIndex;
+                        for (Coupon coupon : couponsFromProduct) {
+                            System.out.println(index + ". " + coupon.getCode());
+                            index += 1;
+                        }
+                        System.out.print("Enter the code number you want to remove: ");
+                        chosenIndex = scanner.nextInt();
+                        scanner.nextLine();
+
+                        chosenIndex -= 1;
+
+                        if (chosenIndex < 0 || chosenIndex > couponsFromProduct.size()) {
+                            System.out.println("Invalid input");
+                            break;
+                        }
+
+                        Coupon couponToBeRemoved = couponsFromProduct.get(chosenIndex);
+
+                        if (couponToBeRemoved.getProduct().getName().equals(chosenProduct.getName())) {
+                            Coupon.getAllCoupon().remove(couponToBeRemoved.getCode());
+                            System.out.println("Successfully remove " + couponToBeRemoved.getCode());
+                        }
+
+                        break;
                     }
                     case 0 -> editing = false;
                     default -> System.out.println("Invalid choice. Please try again.");

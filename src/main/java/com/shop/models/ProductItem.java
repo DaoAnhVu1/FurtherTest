@@ -1,5 +1,9 @@
 package com.shop.models;
 
+/**
+ * @author Group 4
+ */
+
 public class ProductItem {
     private Product product;
     private double weight = 0;
