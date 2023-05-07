@@ -173,6 +173,10 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
         }
 
         productController.updateProductQuantity(productName, -quantity);
+
+        boolean apply = applyCoupon(coupon);
+        if (!apply)
+            removeCoupon();
         return true;
     }
 
@@ -182,9 +186,21 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             giftItems.set(i, null);
             removed = true;
         }
+
+        // Update weight
+        Product chosenProduct = productController.getAllProducts().get(productName);
+
+        if (chosenProduct instanceof PhysicalProduct) {
+            totalWeight -= (quantity * ((PhysicalProduct) chosenProduct).getWeight());
+        }
+
         // remove all null elements from the list
         giftItems.removeAll(Collections.singleton(null));
         productController.updateProductQuantity(productName, -quantity);
+
+        boolean apply = applyCoupon(coupon);
+        if (!apply)
+            removeCoupon();
         return removed;
     }
 
@@ -280,8 +296,8 @@ public class ShoppingCart implements Comparable<ShoppingCart> {
             System.out.println("Price deducted from coupon: " + this.getCouponPrice());
         }
         System.out.println("Tax: " + tax);
-        System.out.println("Shipping fee: " + String.format("%.1f", totalWeight * shippingFeeBased));
-        System.out.println("Total price: " + String.format("%.1f", calculatePrice()));
+        System.out.println("Shipping fee: " + String.format("%.2f", totalWeight * shippingFeeBased));
+        System.out.println("Total price: " + String.format("%.2f", calculatePrice()));
 
         if (date != null) {
             System.out.println("Purchased Date: " + date);

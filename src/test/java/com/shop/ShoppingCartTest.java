@@ -67,10 +67,18 @@ public class ShoppingCartTest {
         // leading to the new price
         assertEquals(3000 + 300 + (0.1 * 4) + 18, cart.calculatePrice());
 
-        cart.removeCoupon();
+        // Remove harry porter, now the coupon should be removed with the product
+        cart.removeNormalItem("Harry Porter", 1);
 
-        // After removing all coupon, the result should be normal
+        assertEquals(null, cart.getCoupon());
+        assertEquals(0, cart.getCouponPrice());
+
+        // Add Harry Porter again and calculate the price, now no coupon is applied so
+        // the price should be normal
+
+        cart.addProduct("Harry Porter", 1);
         assertEquals(3000 + 300 + (0.1 * 4) + 20, cart.calculatePrice());
+
     }
 
 }

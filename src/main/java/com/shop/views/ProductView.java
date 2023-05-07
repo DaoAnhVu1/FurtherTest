@@ -145,7 +145,7 @@ public class ProductView {
                 System.out.println("2.Quantity: " + chosenProduct.getQuantity());
                 System.out.println("3.Price: " + chosenProduct.getPrice());
                 System.out.println("4.Add new coupon to this product");
-                System.out.println("5. Remove coupon from this product");
+                System.out.println("5.Remove coupon from this product");
                 System.out.println("0: Exit editing");
                 System.out.println();
                 System.out.print("Your choice: ");

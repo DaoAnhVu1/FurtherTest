@@ -100,6 +100,10 @@ public class ShoppingCartView {
     public void removeProductFromCart() throws InputMismatchException {
         System.out.println();
         ShoppingCart currentCart = ShoppingCartController.getInstance().getCurrentCart();
+        if (currentCart.getAllItems().size() == 0) {
+            System.out.println("There is nothing in the cart to be removed");
+            return;
+        }
         int index = 1;
         for (ProductItem productItem : currentCart.getAllItems()) {
             Product currentProduct = productItem.getProduct();
